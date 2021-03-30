@@ -6,19 +6,18 @@
                     <div class="card-body">
                         <div class="form-group">
                             <label for="">Product Name</label>
-                            <input type="text" v-model="product_name" placeholder="Product Name" class="form-control">
+                            <input type="text" v-model="product_name" placeholder="Product Name" class="form-control" :value="product.title">
                         </div>
                         <div class="form-group">
                             <label for="">Product SKU</label>
-                            <input type="text" v-model="product_sku" placeholder="Product Name" class="form-control">
+                            <input type="text" v-model="product_sku" placeholder="Product Name" class="form-control" value="product.sku">
                         </div>
                         <div class="form-group">
                             <label for="">Description</label>
-                            <textarea v-model="description" id="" cols="30" rows="4" class="form-control"></textarea>
+                            <textarea v-model="description" id="" cols="30" rows="4" class="form-control">{{product.description}}</textarea>
                         </div>
                     </div>
                 </div>
-
                 <div class="card shadow mb-4">
                     <div class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
                         <h6 class="m-0 font-weight-bold text-primary">Media</h6>
@@ -189,13 +188,13 @@ export default {
             }
 
 
-            axios.post('/product', product).then(response => {
+            axios.post('http://localhost/interview-question-sr/public/product', product).then(response => {
                 console.log(response.data);
             }).catch(error => {
                 console.log(error);
             })
 
-            console.log(product);
+            // console.log(product);
         }
 
 

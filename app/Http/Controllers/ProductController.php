@@ -7,6 +7,7 @@ use App\Models\ProductVariant;
 use App\Models\ProductVariantPrice;
 use App\Models\Variant;
 use Illuminate\Http\Request;
+use function MongoDB\BSON\toJSON;
 
 class ProductController extends Controller
 {
@@ -17,7 +18,8 @@ class ProductController extends Controller
      */
     public function index()
     {
-        return view('products.index');
+        $product =Product::with('price','variant')->paginate(1);
+        return view('products.index',compact('product'));
     }
 
     /**
@@ -39,6 +41,23 @@ class ProductController extends Controller
      */
     public function store(Request $request)
     {
+//        dd($request->all());
+        $requestData =$request->all();
+        $product = new Product();
+        $product->title=$requestData['title'];
+        $product->sku=$requestData['sku'];
+        $product->description=$requestData['description'];
+        $product->save();
+//        foreach ($requestData['product_variant'] as $product_variant)
+//        {
+//            ProductVariant::create([
+//               'variant'=
+//               'variant_id'
+//               'product_id'
+//            ]);
+//        }
+        return  json_encode(['status'=>'success']);
+//        return redirect()->route('product.create')->with(json_encode(['status'=>'success']));
 
     }
 
@@ -63,7 +82,8 @@ class ProductController extends Controller
     public function edit(Product $product)
     {
         $variants = Variant::all();
-        return view('products.edit', compact('variants'));
+//        $product = $product->toArray();
+        return view('products.edit', compact('variants','product'));
     }
 
     /**
@@ -75,7 +95,19 @@ class ProductController extends Controller
      */
     public function update(Request $request, Product $product)
     {
-        //
+//        $requestData=$request->all();
+//        $product->update($requestData);
+        $requestData =$request->all();
+        dd($product);
+//        $product = new Product();
+//        $product->title=$requestData['title'];
+//        $product->sku=$requestData['sku'];
+//        $product->description=$requestData['description'];
+//        $product->update($requestData);
+
+//        return back();
+        return  json_encode(['status'=>'success']);
+
     }
 
     /**

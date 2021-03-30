@@ -77,10 +77,42 @@
                             </div>
                         </td>
                     </tr>
+                    @foreach($product as $value)
+                    <tr>
+                        <td>{{$loop->iteration}}</td>
+                        <td>{{$value->title}} <br> {{$value->created_at->diffForHumans()}}</td>
+                        <td>{{$value->description}}</td>
+                        <td>
+                            <dl class="row mb-0" style="height: 80px; overflow: hidden" id="variant">
+
+                                <dt class="col-sm-3 pb-0">
+{{--                                    SM/ Red/ V-Nick--}}
+                                    @foreach($value->variant as $variant)
+                                    {{$variant->variant}}
+                                    @endforeach
+                                </dt>
+                                <dd class="col-sm-9">
+                                    <dl class="row mb-0">
+                                        <dt class="col-sm-4 pb-0">Price : {{ number_format($value->price->price ,2) }}</dt>
+                                        <dd class="col-sm-8 pb-0">InStock : {{ number_format($value->price->stock ,2) }}</dd>
+                                    </dl>
+                                </dd>
+                            </dl>
+                            <button onclick="$('#variant').toggleClass('h-auto')" class="btn btn-sm btn-link">Show more</button>
+                        </td>
+                        <td>
+                            <div class="btn-group btn-group-sm">
+                                <a href="{{ route('product.edit', $value->id) }}" class="btn btn-success">Edit</a>
+                            </div>
+                        </td>
+
+                    </tr>
+                    @endforeach
 
                     </tbody>
 
                 </table>
+
             </div>
 
         </div>
@@ -91,7 +123,7 @@
                     <p>Showing 1 to 10 out of 100</p>
                 </div>
                 <div class="col-md-2">
-
+                    {{$product->render()}}
                 </div>
             </div>
         </div>
